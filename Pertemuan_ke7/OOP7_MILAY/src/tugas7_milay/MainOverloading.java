@@ -22,17 +22,17 @@ public class MainOverloading {
         
         System.out.println("================== SEGITIGA 2 ==================");
         sgt[1] = new Segitiga();
-        System.out.println("Total sudut B & C (180 - 54)          : " + sgt[0].totalSudut(54));
-        System.out.println("Total sudut C (180 -(54 + 36))        : " + sgt[0].totalSudut(54, 36));
-        System.out.println("Keliling (diketahui panjang 3 sisi)   : " + sgt[0].keliling(5, 12, 13));
-        System.out.println("Keliling (tidak diketahui sisi miring): " + sgt[0].keliling(5, 12)+"\n");
+        System.out.println("Total sudut B & C (180 - 54)          : " + sgt[1].totalSudut(54));
+        System.out.println("Total sudut C (180 -(54 + 36))        : " + sgt[1].totalSudut(54, 36));
+        System.out.println("Keliling (diketahui panjang 3 sisi)   : " + sgt[1].keliling(5, 12, 13));
+        System.out.println("Keliling (tidak diketahui sisi miring): " + sgt[1].keliling(5, 12)+"\n");
         
         System.out.println("================== SEGITIGA 3 ==================");
         sgt[2] = new Segitiga();
-        System.out.println("Total sudut B & C (180 - 56)          : " + sgt[0].totalSudut(56));
-        System.out.println("Total sudut C(180 -(56 + 45))         : " + sgt[0].totalSudut(56, 45));
-        System.out.println("Keliling (diketahui panjang 3 sisi)   : " + sgt[0].keliling(7, 24, 25));
-        System.out.println("Keliling (tidak diketahui sisi miring): " + sgt[0].keliling(7, 24)+"\n");
+        System.out.println("Total sudut B & C (180 - 56)          : " + sgt[2].totalSudut(56));
+        System.out.println("Total sudut C(180 -(56 + 45))         : " + sgt[2].totalSudut(56, 45));
+        System.out.println("Keliling (diketahui panjang 3 sisi)   : " + sgt[2].keliling(7, 24, 25));
+        System.out.println("Keliling (tidak diketahui sisi miring): " + sgt[2].keliling(7, 24)+"\n");
         
     }
 }
