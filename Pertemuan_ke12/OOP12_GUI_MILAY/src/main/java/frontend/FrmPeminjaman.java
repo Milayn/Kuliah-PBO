@@ -53,23 +53,14 @@ public class FrmPeminjaman extends javax.swing.JFrame {
         }
     }
     
-    public void cari(String keyword) {
-        String[] kolom = {"ID", "ID Anggota", "ID Buku", "Tanggal Pinjam", "Tanggal Kembali"};
-        ArrayList<Peminjaman> list = new Peminjaman().getAll();
-        Object rowData[] = new Object[5];
-
-        tblpeminjaman.setModel(new DefaultTableModel(new Object[][]{}, kolom));
-
-        for (Peminjaman pjm : list) {
-            rowData[0] = pjm.getIdpeminjaman();
-            rowData[1] = pjm.getAnggota().getNama();
-            rowData[2] = pjm.getBuku().getJudul();
-            rowData[3] = pjm.getTanggalpinjam();
-            rowData[4] = pjm.getTanggalkembali();
-
-            ((DefaultTableModel) tblpeminjaman.getModel()).addRow(rowData);
-
-        }
+    public void cariAng(String keyword){
+        Anggota a=new Anggota().getById(Integer.parseInt(keyword));
+        labelAnggota.setText(a.getNama());
+    }
+    
+    public void cariBuk(String keyword){
+        Buku b=new Buku().getById(Integer.parseInt(keyword));
+        labelBuku.setText(b.getJudul());
     }
 
     /**
@@ -92,10 +83,10 @@ public class FrmPeminjaman extends javax.swing.JFrame {
         txtIdBuku = new javax.swing.JTextField();
         tanggalPinjam = new javax.swing.JTextField();
         tanggalKembali = new javax.swing.JTextField();
-        cari1 = new javax.swing.JButton();
-        cari2 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        cariAnggota = new javax.swing.JButton();
+        cariBuku = new javax.swing.JButton();
+        labelAnggota = new javax.swing.JLabel();
+        labelBuku = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         tambahBaru = new javax.swing.JButton();
@@ -130,23 +121,23 @@ public class FrmPeminjaman extends javax.swing.JFrame {
             }
         });
 
-        cari1.setText("Cari");
-        cari1.addActionListener(new java.awt.event.ActionListener() {
+        cariAnggota.setText("Cari");
+        cariAnggota.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cari1ActionPerformed(evt);
+                cariAnggotaActionPerformed(evt);
             }
         });
 
-        cari2.setText("Cari");
-        cari2.addActionListener(new java.awt.event.ActionListener() {
+        cariBuku.setText("Cari");
+        cariBuku.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cari2ActionPerformed(evt);
+                cariBukuActionPerformed(evt);
             }
         });
 
-        jLabel6.setText("Nama Anggota");
+        labelAnggota.setText("Nama Anggota");
 
-        jLabel7.setText("Judul Buku");
+        labelBuku.setText("Judul Buku");
 
         jLabel8.setText("Format: YYYY/MM/DD");
 
@@ -204,7 +195,8 @@ public class FrmPeminjaman extends javax.swing.JFrame {
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel1))
                                 .addGap(17, 17, 17)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(tanggalKembali, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -212,40 +204,43 @@ public class FrmPeminjaman extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(txtIdBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cari2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(cariBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(txtIdAnggota, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cari1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(cariAnggota, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
+                            .addComponent(labelAnggota)
                             .addComponent(jLabel8)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel9)))
-                    .addComponent(jLabel1))
+                            .addComponent(labelBuku)
+                            .addComponent(jLabel9))))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtIdAnggota, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cari1)
-                    .addComponent(jLabel6))
-                .addGap(11, 11, 11)
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cariAnggota)
+                            .addComponent(labelAnggota))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(1, 1, 1)
+                            .addComponent(txtIdAnggota, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtIdBuku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cari2)
-                    .addComponent(jLabel7))
+                    .addComponent(cariBuku)
+                    .addComponent(labelBuku)
+                    .addComponent(txtIdBuku))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -265,7 +260,7 @@ public class FrmPeminjaman extends javax.swing.JFrame {
                     .addComponent(hapus))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -284,6 +279,12 @@ public class FrmPeminjaman extends javax.swing.JFrame {
         p.getBuku().setIdbuku(Integer.parseInt(txtIdBuku.getText()));
         p.setTanggalpinjam(tanggalPinjam.getText());
         p.setTanggalkembali(tanggalKembali.getText());
+        p.save();
+        
+        txtId.setText(Integer.toString(p.getIdpeminjaman()));
+        
+        tampilkanData();
+        
     }//GEN-LAST:event_simpanActionPerformed
 
     private void hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusActionPerformed
@@ -302,16 +303,16 @@ public class FrmPeminjaman extends javax.swing.JFrame {
         kosongkanForm();
     }//GEN-LAST:event_tambahBaruActionPerformed
 
-    private void cari1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cari1ActionPerformed
+    private void cariAnggotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariAnggotaActionPerformed
         // TODO add your handling code here:
-        cari(cari1.getText());
+        cariAng(txtIdAnggota.getText());
 
-    }//GEN-LAST:event_cari1ActionPerformed
+    }//GEN-LAST:event_cariAnggotaActionPerformed
 
-    private void cari2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cari2ActionPerformed
+    private void cariBukuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariBukuActionPerformed
         // TODO add your handling code here:
-        cari(cari2.getText());
-    }//GEN-LAST:event_cari2ActionPerformed
+        cariBuk(txtIdBuku.getText());
+    }//GEN-LAST:event_cariBukuActionPerformed
 
     private void tblpeminjamanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblpeminjamanMouseClicked
         // TODO add your handling code here:
@@ -362,29 +363,21 @@ public class FrmPeminjaman extends javax.swing.JFrame {
             }
         });
     }
-    
-    private Anggota cariAnggota(int idAnggota) {
-        Anggota ag = new Anggota().getById(idAnggota);
-        if (ag != null) {
-            return ag;
-        }
-        return null;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cari1;
-    private javax.swing.JButton cari2;
+    private javax.swing.JButton cariAnggota;
+    private javax.swing.JButton cariBuku;
     private javax.swing.JButton hapus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelAnggota;
+    private javax.swing.JLabel labelBuku;
     private javax.swing.JButton simpan;
     private javax.swing.JButton tambahBaru;
     private javax.swing.JTextField tanggalKembali;

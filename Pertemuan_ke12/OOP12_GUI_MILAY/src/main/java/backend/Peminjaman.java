@@ -13,8 +13,8 @@ import java.sql.*;
  */
 public class Peminjaman {
     private int idpeminjaman;
-    private Anggota anggota;
-    private Buku buku;
+    private Anggota anggota = new Anggota();
+    private Buku buku = new Buku();
     private String tanggalpinjam;
     private String tanggalkembali;
 
@@ -71,30 +71,26 @@ public class Peminjaman {
     
     public Peminjaman getById(int id) {
         Peminjaman pinjam = new Peminjaman();
-        ResultSet rs = DBHelper.selectQuery("SELECT "
-                                            + " p.idpeminjaman AS idpeminjaman, "
-                                            + " p.idanggota AS idanggota, "
-                                            + " p.idbuku AS idbuku, "
-                                            + " p.tanggalpinjam AS tanggalpinjam, "
-                                            + " p.tanggalkembali AS tanggalkembali, "
-                                            + " b.idbuku AS idbuku, "
-                                            + " b.judul AS judul, "
-                                            + " b.penerbit AS penerbit, "
-                                            + " b.penulis AS penulis, "
-                                            + " a.idanggota as id anggota, "
-                                            + " a.nama as nama,"
-                                            + " a.alamat as alamat, "
-                                            + " a.telepon as telepon "
-                                            + " FROM peminjaman p "
-                                            + " LEFT JOIN buku b ON b.idbuku = p.idbuku"
-                                            + " LEFT JOIN anggota a ON a.idanggota=p.idanggota"
-                                            + " WHERE p.idpeminjaman = '" + id + "'");
+        ResultSet rs = DBHelper.selectQuery("SELECT p.idpeminjaman,"
+                + "p.tanggalpinjam,p.tanggalkembali,"
+                + "a.idanggota,a.nama,a.alamat,a.telepon,"
+                + "b.idbuku,b.judul,b.idkategori,b.penerbit,b.penulis "
+                + "FROM peminjaman p "
+                + "left join anggota a on p.idanggota=a.idanggota "
+                + "left join buku b on p.idbuku=b.idbuku"
+                + " WHERE p.idpeminjaman= '"+id+"'");
         try {
             while(rs.next()){
                 pinjam = new Peminjaman();
                 pinjam.setIdpeminjaman(rs.getInt("idpeminjaman"));
                 pinjam.getAnggota().setIdanggota(rs.getInt("idanggota"));
+                pinjam.getAnggota().setNama(rs.getString("nama"));
+                pinjam.getAnggota().setAlamat(rs.getString("alamat"));
+                pinjam.getAnggota().setTelepon(rs.getString("telepon"));
                 pinjam.getBuku().setIdbuku(rs.getInt("idbuku"));
+                pinjam.getBuku().setJudul(rs.getString("judul"));
+                pinjam.getBuku().setPenerbit(rs.getString("penerbit"));
+                pinjam.getBuku().setPenulis(rs.getString("penulis"));
                 pinjam.setTanggalpinjam(rs.getString("tanggalpinjam"));
                 pinjam.setTanggalkembali(rs.getString("tanggalkembali"));
             }
@@ -108,31 +104,25 @@ public class Peminjaman {
     public ArrayList<Peminjaman> getAll() {
     ArrayList<Peminjaman> ListPeminjaman = new ArrayList();
 
-        ResultSet rs = DBHelper.selectQuery("SELECT "
-                                            + " p.idpeminjaman AS idpeminjaman, "
-                                            + " p.idanggota AS idanggota, "
-                                            + " p.idbuku AS idbuku, "
-                                            + " p.tanggalpinjam AS tanggalpinjam, "
-                                            + " p.tanggalkembali AS tanggalkembali, "
-                                            + " b.idbuku AS idbuku, "
-                                            + " b.judul AS judul, "
-                                            + " b.penerbit AS penerbit, "
-                                            + " b.penulis AS penulis, "
-                                            + " a.idanggota as id anggota, "
-                                            + " a.nama as nama,"
-                                            + " a.alamat as alamat, "
-                                            + " a.telepon as telepon "
-                                            + " FROM peminjaman p "
-                                            + " LEFT JOIN buku b ON b.idbuku = p.idbuku"
-                                            + " LEFT JOIN anggota a ON a.idanggota=b.idanggota"
-                                            + " ");                                
+        ResultSet rs = DBHelper.selectQuery("SELECT p.idpeminjaman,"
+                + "p.tanggalpinjam,p.tanggalkembali,"
+                + "a.idanggota,a.nama,a.alamat,a.telepon,"
+                + "b.idbuku,b.judul,b.idkategori,b.penerbit,b.penulis "
+                + "FROM peminjaman p "
+                + "left join anggota a on p.idanggota=a.idanggota "
+                + "left join buku b on p.idbuku=b.idbuku");                              
     try {
         while(rs.next()){
-            Peminjaman pinjam = new Peminjaman();
-            pinjam = new Peminjaman();
+           Peminjaman pinjam = new Peminjaman();
                 pinjam.setIdpeminjaman(rs.getInt("idpeminjaman"));
                 pinjam.getAnggota().setIdanggota(rs.getInt("idanggota"));
+                pinjam.getAnggota().setNama(rs.getString("nama"));
+                pinjam.getAnggota().setAlamat(rs.getString("alamat"));
+                pinjam.getAnggota().setTelepon(rs.getString("telepon"));
                 pinjam.getBuku().setIdbuku(rs.getInt("idbuku"));
+                pinjam.getBuku().setJudul(rs.getString("judul"));
+                pinjam.getBuku().setPenerbit(rs.getString("penerbit"));
+                pinjam.getBuku().setPenulis(rs.getString("penulis"));
                 pinjam.setTanggalpinjam(rs.getString("tanggalpinjam"));
                 pinjam.setTanggalkembali(rs.getString("tanggalkembali"));
 
@@ -147,33 +137,29 @@ public class Peminjaman {
 
     public ArrayList<Peminjaman> search(String keyword) {
         ArrayList<Peminjaman> ListPeminjaman = new ArrayList();
+        
+        ResultSet rs = DBHelper.selectQuery("SELECT p.idpeminjaman,"
+                + "p.tanggalpinjam,p.tanggalkembali,"
+                + "a.idanggota,a.nama,a.alamat,a.telepon,"
+                + "b.idbuku,b.judul,b.idkategori,b.penerbit,b.penulis "
+                + "FROM peminjaman p "
+                + "left join anggota a on p.idanggota=a.idanggota "
+                + "left join buku b on p.idbuku=b.idbuku"
+                + "where b.idbuku LIKE '%"+keyword+"%' "
+                + "or a.idanggota LIKE '%"+keyword+"%' "); 
 
-        ResultSet rs = DBHelper.selectQuery("SELECT "
-                                            + " p.idpeminjaman AS idpeminjaman, "
-                                            + " p.idanggota AS idanggota, "
-                                            + " p.idbuku AS idbuku, "
-                                            + " p.tanggalpinjam AS tanggalpinjam, "
-                                            + " p.tanggalkembali AS tanggalkembali, "
-                                            + " b.idbuku AS idbuku, "
-                                            + " b.judul AS judul, "
-                                            + " b.penerbit AS penerbit, "
-                                            + " b.penulis AS penulis, "
-                                            + " a.idanggota as id anggota, "
-                                            + " a.nama as nama,"
-                                            + " a.alamat as alamat, "
-                                            + " a.telepon as telepon "
-                                            + " FROM peminjaman p "
-                                            + " LEFT JOIN buku b ON b.idbuku = p.idbuku"
-                                            + " LEFT JOIN anggota a ON a.idanggota=b.idanggota"
-                                            + " WHERE p.idanggota LIKE '%" + keyword + "%' "
-                                            + "  OR p.idbuku LIKE '%" + keyword + "%' ");
         try {
             while(rs.next()){
-                Peminjaman pinjam;
-                pinjam = new Peminjaman();
+                Peminjaman pinjam = new Peminjaman();
                 pinjam.setIdpeminjaman(rs.getInt("idpeminjaman"));
                 pinjam.getAnggota().setIdanggota(rs.getInt("idanggota"));
+                pinjam.getAnggota().setNama(rs.getString("nama"));
+                pinjam.getAnggota().setAlamat(rs.getString("alamat"));
+                pinjam.getAnggota().setTelepon(rs.getString("telepon"));
                 pinjam.getBuku().setIdbuku(rs.getInt("idbuku"));
+                pinjam.getBuku().setJudul(rs.getString("judul"));
+                pinjam.getBuku().setPenerbit(rs.getString("penerbit"));
+                pinjam.getBuku().setPenulis(rs.getString("penulis"));
                 pinjam.setTanggalpinjam(rs.getString("tanggalpinjam"));
                 pinjam.setTanggalkembali(rs.getString("tanggalkembali"));
 
